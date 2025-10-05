@@ -6,7 +6,9 @@
     <title>CryptoDAX - Platform Jual Beli Kripto Indonesia</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Semua kode CSS dari file sebelumnya */
         :root {
             --primary: #1e3a8a;
             --primary-light: #3b82f6;
@@ -59,6 +61,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: var(--transition);
         }
 
         .header-content {
@@ -93,10 +96,27 @@
             transition: var(--transition);
             padding: 5px 10px;
             border-radius: 5px;
+            position: relative;
+            overflow: hidden;
         }
 
         nav a:hover, nav a.active {
             background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
         }
 
         .header-actions {
@@ -111,6 +131,17 @@
             color: white;
             cursor: pointer;
             font-size: 1.2rem;
+            transition: var(--transition);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .btn {
@@ -121,6 +152,23 @@
             transition: var(--transition);
             border: none;
             font-family: 'Poppins', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn-primary {
@@ -130,16 +178,19 @@
 
         .btn-primary:hover {
             background-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .btn-outline {
             background-color: transparent;
-            border: 1px solid white;
-            color: white;
+            border: 1px solid blue;
+            color: blue;
         }
 
         .btn-outline:hover {
             background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
         }
 
         .btn-success {
@@ -147,19 +198,39 @@
             color: white;
         }
 
+        .btn-success:hover {
+            background-color: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+        }
+
         .btn-danger {
             background-color: var(--danger);
             color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(239, 68, 68, 0.3);
         }
 
         /* Main Content */
         .main-content {
             min-height: calc(100vh - 140px);
             padding: 30px 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
         .page {
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .page.active {
@@ -170,6 +241,19 @@
             margin-bottom: 20px;
             font-size: 1.8rem;
             color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 2px;
         }
 
         /* Home Page */
@@ -187,6 +271,14 @@
             box-shadow: var(--shadow);
             transition: var(--transition);
             border: 1px solid var(--border);
+            animation: cardSlideIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes cardSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .crypto-card:hover {
@@ -211,6 +303,11 @@
             margin-right: 10px;
             font-weight: bold;
             font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .crypto-card:hover .crypto-icon {
+            transform: scale(1.1);
         }
 
         .crypto-name {
@@ -250,6 +347,7 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
         }
 
         table {
@@ -261,6 +359,7 @@
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid var(--border);
+            transition: var(--transition);
         }
 
         th {
@@ -269,8 +368,13 @@
             color: var(--gray);
         }
 
+        tr {
+            transition: var(--transition);
+        }
+
         tr:hover {
             background-color: #f9fafb;
+            transform: scale(1.01);
         }
 
         /* Auth Pages */
@@ -288,6 +392,7 @@
             width: 100%;
             max-width: 400px;
             box-shadow: var(--shadow);
+            animation: cardSlideIn 0.5s ease;
         }
 
         .auth-title {
@@ -319,6 +424,7 @@
             outline: none;
             border-color: var(--primary-light);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
         }
 
         .auth-link {
@@ -329,10 +435,12 @@
         .auth-link a {
             color: var(--primary-light);
             text-decoration: none;
+            transition: var(--transition);
         }
 
         .auth-link a:hover {
             text-decoration: underline;
+            color: var(--primary);
         }
 
         /* Dashboard */
@@ -348,6 +456,13 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: cardSlideIn 0.5s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .card-title {
@@ -362,6 +477,14 @@
             color: var(--primary);
         }
 
+        .profit-card {
+            border-left: 4px solid var(--secondary);
+        }
+
+        .loss-card {
+            border-left: 4px solid var(--danger);
+        }
+
         .chart-container {
             background-color: white;
             border-radius: 10px;
@@ -369,6 +492,7 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             height: 400px;
+            animation: fadeIn 0.5s ease;
         }
 
         .action-buttons {
@@ -390,6 +514,7 @@
             border-radius: 10px;
             padding: 20px;
             box-shadow: var(--shadow);
+            animation: cardSlideIn 0.5s ease;
         }
 
         .wallet-header {
@@ -423,11 +548,13 @@
 
         .payment-method:hover {
             border-color: var(--primary-light);
+            transform: translateY(-3px);
         }
 
         .payment-method.selected {
             border-color: var(--primary);
             background-color: rgba(59, 130, 246, 0.05);
+            transform: scale(1.05);
         }
 
         .payment-icon {
@@ -452,6 +579,7 @@
             border-radius: 8px;
             background-color: #f8fafc;
             border-left: 4px solid var(--primary);
+            animation: fadeIn 0.5s ease;
         }
 
         .step-title {
@@ -470,6 +598,7 @@
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
         }
 
         .withdrawal-info h4 {
@@ -489,6 +618,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease;
         }
 
         .modal.active {
@@ -504,6 +634,12 @@
             box-shadow: var(--shadow);
             max-height: 90vh;
             overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-header {
@@ -524,6 +660,90 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
+            transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            background-color: #f3f4f6;
+            color: var(--dark);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            box-shadow: var(--shadow);
+            z-index: 1100;
+            animation: slideInRight 0.3s ease, slideOutRight 0.3s ease 2.7s forwards;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        .notification.success {
+            background-color: var(--secondary);
+        }
+
+        .notification.error {
+            background-color: var(--danger);
+        }
+
+        .notification.warning {
+            background-color: var(--warning);
+        }
+
+        /* Withdraw Limits */
+        .withdraw-limits {
+            background-color: #f0f9ff;
+            border: 1px solid var(--primary-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .withdraw-limits h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .limit-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
         }
 
         /* Footer */
@@ -532,6 +752,37 @@
             color: white;
             padding: 30px 0;
             text-align: center;
+            transition: var(--transition);
+        }
+
+        /* Additional styles for percentage buttons */
+        .percentage-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .percentage-btn {
+            flex: 1;
+            padding: 8px 5px;
+            background-color: #f3f4f6;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .percentage-btn:hover {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        
+        .percentage-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
         }
 
         /* Responsive Styles */
@@ -704,9 +955,13 @@
                         <div class="card-title">Total Investasi</div>
                         <div class="card-value" id="totalInvestment">Rp 0</div>
                     </div>
-                    <div class="dashboard-card">
-                        <div class="card-title">Profit/Loss</div>
-                        <div class="card-value" id="profitLoss">Rp 0</div>
+                    <div class="dashboard-card profit-card">
+                        <div class="card-title">Total Profit</div>
+                        <div class="card-value positive" id="totalProfit">Rp 0</div>
+                    </div>
+                    <div class="dashboard-card loss-card">
+                        <div class="card-title">Total Loss</div>
+                        <div class="card-value negative" id="totalLoss">Rp 0</div>
                     </div>
                     <div class="dashboard-card">
                         <div class="card-title">Aset Tersimpan</div>
@@ -787,9 +1042,13 @@
                         <div class="card-title">Total Aset</div>
                         <div class="card-value" id="dashboardAssets">Rp 0</div>
                     </div>
-                    <div class="dashboard-card">
-                        <div class="card-title">Profit/Loss</div>
-                        <div class="card-value" id="dashboardProfit">Rp 0</div>
+                    <div class="dashboard-card profit-card">
+                        <div class="card-title">Total Profit Selama Investasi</div>
+                        <div class="card-value positive" id="dashboardProfit">Rp 0</div>
+                    </div>
+                    <div class="dashboard-card loss-card">
+                        <div class="card-title">Total Loss Selama Investasi</div>
+                        <div class="card-value negative" id="dashboardLoss">Rp 0</div>
                     </div>
                 </div>
                 
@@ -890,10 +1149,27 @@
                 <p>Proses penarikan dana memerlukan waktu 1-3 hari kerja. Pastikan data rekening tujuan sudah benar.</p>
             </div>
             
+            <div class="withdraw-limits">
+                <h4>Batas Penarikan</h4>
+                <div class="limit-item">
+                    <span>Minimum Penarikan:</span>
+                    <span>Rp 50.000</span>
+                </div>
+                <div class="limit-item">
+                    <span>Maksimum Harian:</span>
+                    <span>Rp 100.000.000</span>
+                </div>
+                <div class="limit-item">
+                    <span>Biaya Admin:</span>
+                    <span>Rp 6.500</span>
+                </div>
+            </div>
+            
             <form id="withdrawForm">
                 <div class="form-group">
-                    <label for="withdrawAmount">Jumlah Withdraw (Min. Rp 50.000)</label>
-                    <input type="number" id="withdrawAmount" class="form-control" min="50000" required>
+                    <label for="withdrawAmount">Jumlah Withdraw</label>
+                    <input type="number" id="withdrawAmount" class="form-control" min="50000" max="100000000" required>
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">Saldo tersedia: <span id="availableBalance">Rp 0</span></small>
                 </div>
                 
                 <div class="form-group">
@@ -924,8 +1200,71 @@
                     <textarea id="withdrawNotes" class="form-control" rows="2" placeholder="Tambahkan catatan untuk transaksi ini"></textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Ajukan Withdraw</button>
+                <div class="withdrawal-summary" style="background-color: #f0f9ff; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">Ringkasan Withdraw</h4>
+                    <div class="limit-item">
+                        <span>Jumlah Withdraw:</span>
+                        <span id="summaryAmount">Rp 0</span>
+                    </div>
+                    <div class="limit-item">
+                        <span>Biaya Admin:</span>
+                        <span>Rp 6.500</span>
+                    </div>
+                    <div class="limit-item" style="font-weight: 600; border-top: 1px solid var(--border); padding-top: 5px;">
+                        <span>Total yang akan ditarik:</span>
+                        <span id="summaryTotal">Rp 0</span>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitWithdrawBtn">Ajukan Withdraw</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Withdraw Confirmation Modal -->
+    <div class="modal" id="withdrawConfirmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Konfirmasi Withdraw</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: var(--warning); margin-bottom: 15px;"></i>
+                <h4 style="margin-bottom: 10px;">Apakah Anda yakin ingin melakukan withdraw?</h4>
+                <p style="color: var(--gray);">Pastikan data rekening tujuan sudah benar. Transaksi tidak dapat dibatalkan setelah diproses.</p>
+            </div>
+            
+            <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <div class="limit-item">
+                    <span>Jumlah Withdraw:</span>
+                    <span id="confirmAmount">Rp 0</span>
+                </div>
+                <div class="limit-item">
+                    <span>Biaya Admin:</span>
+                    <span>Rp 6.500</span>
+                </div>
+                <div class="limit-item">
+                    <span>Bank Tujuan:</span>
+                    <span id="confirmBank">-</span>
+                </div>
+                <div class="limit-item">
+                    <span>No. Rekening:</span>
+                    <span id="confirmAccountNumber">-</span>
+                </div>
+                <div class="limit-item">
+                    <span>Nama Penerima:</span>
+                    <span id="confirmAccountName">-</span>
+                </div>
+                <div class="limit-item" style="font-weight: 600; border-top: 1px solid var(--border); padding-top: 5px;">
+                    <span>Total yang akan ditarik:</span>
+                    <span id="confirmTotal">Rp 0</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" style="flex: 1;" id="cancelWithdrawBtn">Batal</button>
+                <button class="btn btn-primary" style="flex: 1;" id="confirmWithdrawBtn">Konfirmasi</button>
+            </div>
         </div>
     </div>
 
@@ -979,7 +1318,7 @@
         </div>
     </div>
 
-    <!-- Buy Crypto Modal -->
+    <!-- Buy Crypto Modal (Updated with percentage buttons) -->
     <div class="modal" id="buyCryptoModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -996,13 +1335,22 @@
                 <div class="form-group">
                     <label for="buyAmount">Jumlah (IDR)</label>
                     <input type="number" id="buyAmount" class="form-control" min="10000" required>
+                    <div class="percentage-buttons">
+                        <button type="button" class="percentage-btn" data-percentage="25">25%</button>
+                        <button type="button" class="percentage-btn" data-percentage="50">50%</button>
+                        <button type="button" class="percentage-btn" data-percentage="75">75%</button>
+                        <button type="button" class="percentage-btn" data-percentage="100">100%</button>
+                    </div>
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">
+                        Saldo tersedia: <span id="availableBuyBalance">Rp 0</span>
+                    </small>
                 </div>
                 <button type="submit" class="btn btn-success" style="width: 100%;">Beli</button>
             </form>
         </div>
     </div>
 
-    <!-- Sell Crypto Modal -->
+    <!-- Sell Crypto Modal (Updated with percentage buttons) -->
     <div class="modal" id="sellCryptoModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -1019,6 +1367,15 @@
                 <div class="form-group">
                     <label for="sellAmount">Jumlah</label>
                     <input type="number" id="sellAmount" class="form-control" min="0.0001" step="0.0001" required>
+                    <div class="percentage-buttons">
+                        <button type="button" class="percentage-btn" data-percentage="25">25%</button>
+                        <button type="button" class="percentage-btn" data-percentage="50">50%</button>
+                        <button type="button" class="percentage-btn" data-percentage="75">75%</button>
+                        <button type="button" class="percentage-btn" data-percentage="100">100%</button>
+                    </div>
+                    <small style="color: var(--gray); margin-top: 5px; display: block;">
+                        Jumlah tersedia: <span id="availableSellAmount">0</span> <span id="sellCryptoUnit"></span>
+                    </small>
                 </div>
                 <button type="submit" class="btn btn-danger" style="width: 100%;">Jual</button>
             </form>
@@ -1045,9 +1402,12 @@
                     emailVerified: false,
                     identityVerified: false
                 },
-                bankAccounts: []
+                bankAccounts: [],
+                profit: 0,
+                loss: 0
             },
-            theme: 'light'
+            theme: 'light',
+            priceHistory: {} // Store price history for charts
         };
 
         // Crypto Data (dummy data with initial values)
@@ -1059,6 +1419,25 @@
             { symbol: 'SOL', name: 'Solana', price: 1200000, change24h: 3.4, volume: 35000000000, icon: 'S' },
             { symbol: 'XRP', name: 'Ripple', price: 8500, change24h: -0.8, volume: 28000000000, icon: 'X' }
         ];
+
+        // Initialize price history
+        function initializePriceHistory() {
+            appState.cryptoData.forEach(crypto => {
+                appState.priceHistory[crypto.symbol] = [];
+                
+                // Generate initial price history (24 data points)
+                let currentPrice = crypto.price;
+                for (let i = 0; i < 24; i++) {
+                    // Simulate realistic price movements
+                    const change = (Math.random() * 4 - 2) / 100; // -2% to +2%
+                    currentPrice = Math.max(1, currentPrice * (1 + change));
+                    appState.priceHistory[crypto.symbol].push({
+                        time: `${i}:00`,
+                        price: currentPrice
+                    });
+                }
+            });
+        }
 
         // Payment Methods
         const paymentMethods = {
@@ -1119,6 +1498,7 @@
         const withdrawBtn = document.getElementById('withdrawBtn');
         const depositModal = document.getElementById('depositModal');
         const withdrawModal = document.getElementById('withdrawModal');
+        const withdrawConfirmModal = document.getElementById('withdrawConfirmModal');
         const paymentModal = document.getElementById('paymentModal');
         const verificationModal = document.getElementById('verificationModal');
         const depositForm = document.getElementById('depositForm');
@@ -1141,6 +1521,7 @@
         const dashboardBalance = document.getElementById('dashboardBalance');
         const dashboardAssets = document.getElementById('dashboardAssets');
         const dashboardProfit = document.getElementById('dashboardProfit');
+        const dashboardLoss = document.getElementById('dashboardLoss');
         const portfolioTable = document.getElementById('portfolioTable');
         const buyCryptoSelect = document.getElementById('buyCryptoSelect');
         const sellCryptoSelect = document.getElementById('sellCryptoSelect');
@@ -1148,6 +1529,26 @@
         const paymentMethodsElements = document.querySelectorAll('.payment-method');
         const paymentContent = document.getElementById('paymentContent');
         const paymentModalTitle = document.getElementById('paymentModalTitle');
+        const availableBalance = document.getElementById('availableBalance');
+        const withdrawAmount = document.getElementById('withdrawAmount');
+        const summaryAmount = document.getElementById('summaryAmount');
+        const summaryTotal = document.getElementById('summaryTotal');
+        const submitWithdrawBtn = document.getElementById('submitWithdrawBtn');
+        const confirmAmount = document.getElementById('confirmAmount');
+        const confirmBank = document.getElementById('confirmBank');
+        const confirmAccountNumber = document.getElementById('confirmAccountNumber');
+        const confirmAccountName = document.getElementById('confirmAccountName');
+        const confirmTotal = document.getElementById('confirmTotal');
+        const cancelWithdrawBtn = document.getElementById('cancelWithdrawBtn');
+        const confirmWithdrawBtn = document.getElementById('confirmWithdrawBtn');
+        const totalProfit = document.getElementById('totalProfit');
+        const totalLoss = document.getElementById('totalLoss');
+
+        // Additional DOM elements for new features
+        const availableBuyBalance = document.getElementById('availableBuyBalance');
+        const availableSellAmount = document.getElementById('availableSellAmount');
+        const sellCryptoUnit = document.getElementById('sellCryptoUnit');
+        const percentageButtons = document.querySelectorAll('.percentage-btn');
 
         // Initialize Application
         function initApp() {
@@ -1171,6 +1572,10 @@
 
             // Initialize crypto data
             appState.cryptoData = [...initialCryptoData];
+            
+            // Initialize price history
+            initializePriceHistory();
+            
             updateCryptoDisplay();
 
             // Set up event listeners
@@ -1239,11 +1644,22 @@
                     showModal(verificationModal);
                 } else {
                     showModal(withdrawModal);
+                    updateWithdrawForm();
                 }
             });
             
             depositForm.addEventListener('submit', handleDeposit);
             withdrawForm.addEventListener('submit', handleWithdraw);
+            
+            // Withdraw amount change
+            withdrawAmount.addEventListener('input', updateWithdrawSummary);
+            
+            // Withdraw confirmation
+            cancelWithdrawBtn.addEventListener('click', () => {
+                withdrawConfirmModal.classList.remove('active');
+            });
+            
+            confirmWithdrawBtn.addEventListener('click', processWithdraw);
             
             // Payment method selection
             paymentMethodsElements.forEach(method => {
@@ -1269,6 +1685,42 @@
             buyCryptoForm.addEventListener('submit', handleBuyCrypto);
             sellCryptoForm.addEventListener('submit', handleSellCrypto);
 
+            // Percentage buttons for buy modal
+            document.querySelectorAll('#buyCryptoModal .percentage-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const percentage = parseInt(e.target.getAttribute('data-percentage'));
+                    setBuyAmountByPercentage(percentage);
+                    
+                    // Update active state
+                    document.querySelectorAll('#buyCryptoModal .percentage-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                });
+            });
+            
+            // Percentage buttons for sell modal
+            document.querySelectorAll('#sellCryptoModal .percentage-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const percentage = parseInt(e.target.getAttribute('data-percentage'));
+                    setSellAmountByPercentage(percentage);
+                    
+                    // Update active state
+                    document.querySelectorAll('#sellCryptoModal .percentage-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+                });
+            });
+            
+            // Update available balance when crypto selection changes in buy modal
+            buyCryptoSelect.addEventListener('change', updateAvailableBuyBalance);
+            
+            // Update available amount when crypto selection changes in sell modal
+            sellCryptoSelect.addEventListener('change', updateAvailableSellAmount);
+
             // Theme toggle
             themeToggle.addEventListener('click', toggleTheme);
 
@@ -1291,10 +1743,19 @@
 
         // Page Navigation
         function showPage(pageId) {
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
+            // Add fade out animation
+            const mainContent = document.querySelector('.main-content');
+            mainContent.style.opacity = '0';
+            
+            setTimeout(() => {
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById(pageId).classList.add('active');
+                
+                // Fade in
+                mainContent.style.opacity = '1';
+            }, 300);
         }
 
         function showHomePage() {
@@ -1316,7 +1777,7 @@
 
             // Simple validation
             if (!email || !password) {
-                alert('Email dan password harus diisi');
+                showNotification('Email dan password harus diisi', 'error');
                 return;
             }
 
@@ -1329,9 +1790,9 @@
                 localStorage.setItem('cryptodax-user', JSON.stringify(user));
                 loadUserData();
                 showDashboard();
-                alert('Login berhasil!');
+                showNotification('Login berhasil!', 'success');
             } else {
-                alert('Email atau password salah');
+                showNotification('Email atau password salah', 'error');
             }
         }
 
@@ -1344,24 +1805,24 @@
 
             // Validation
             if (!name || !email || !password || !confirmPassword) {
-                alert('Semua field harus diisi');
+                showNotification('Semua field harus diisi', 'error');
                 return;
             }
 
             if (password.length < 6) {
-                alert('Password harus minimal 6 karakter');
+                showNotification('Password harus minimal 6 karakter', 'error');
                 return;
             }
 
             if (password !== confirmPassword) {
-                alert('Password dan konfirmasi password tidak cocok');
+                showNotification('Password dan konfirmasi password tidak cocok', 'error');
                 return;
             }
 
             // Check if user already exists
             const users = JSON.parse(localStorage.getItem('cryptodax-users') || '[]');
             if (users.find(u => u.email === email)) {
-                alert('Email sudah terdaftar');
+                showNotification('Email sudah terdaftar', 'error');
                 return;
             }
 
@@ -1378,7 +1839,9 @@
                     emailVerified: false,
                     identityVerified: false
                 },
-                bankAccounts: []
+                bankAccounts: [],
+                profit: 0,
+                loss: 0
             };
 
             users.push(newUser);
@@ -1388,14 +1851,14 @@
             localStorage.setItem('cryptodax-user', JSON.stringify(newUser));
             loadUserData();
             showDashboard();
-            alert('Pendaftaran berhasil! Silakan verifikasi akun Anda untuk melakukan transaksi.');
+            showNotification('Pendaftaran berhasil! Silakan verifikasi akun Anda untuk melakukan transaksi.', 'success');
         }
 
         function handleLogout() {
             appState.currentUser = null;
             localStorage.removeItem('cryptodax-user');
             showHomePage();
-            alert('Logout berhasil');
+            showNotification('Logout berhasil', 'success');
         }
 
         // User Data Management
@@ -1411,7 +1874,9 @@
                     emailVerified: false,
                     identityVerified: false
                 },
-                bankAccounts: userData.bankAccounts || []
+                bankAccounts: userData.bankAccounts || [],
+                profit: userData.profit || 0,
+                loss: userData.loss || 0
             };
         }
 
@@ -1429,10 +1894,10 @@
             if (code.length === 6) {
                 appState.userData.verification.emailVerified = true;
                 saveUserData();
-                alert('Email berhasil diverifikasi!');
+                showNotification('Email berhasil diverifikasi!', 'success');
                 emailVerificationForm.reset();
             } else {
-                alert('Kode verifikasi tidak valid. Pastikan kode terdiri dari 6 digit.');
+                showNotification('Kode verifikasi tidak valid. Pastikan kode terdiri dari 6 digit.', 'error');
             }
         }
 
@@ -1445,11 +1910,11 @@
                 // Simulate identity verification (in real app, this would upload to server)
                 appState.userData.verification.identityVerified = true;
                 saveUserData();
-                alert('Verifikasi identitas berhasil! Proses verifikasi membutuhkan waktu 1-2 hari kerja.');
+                showNotification('Verifikasi identitas berhasil! Proses verifikasi membutuhkan waktu 1-2 hari kerja.', 'success');
                 identityVerificationForm.reset();
                 verificationModal.classList.remove('active');
             } else {
-                alert('Harap unggah kedua foto yang diperlukan.');
+                showNotification('Harap unggah kedua foto yang diperlukan.', 'error');
             }
         }
 
@@ -1460,7 +1925,7 @@
             const selectedMethod = document.querySelector('.payment-method.selected');
             
             if (!selectedMethod) {
-                alert('Pilih metode pembayaran terlebih dahulu');
+                showNotification('Pilih metode pembayaran terlebih dahulu', 'error');
                 return;
             }
             
@@ -1468,7 +1933,7 @@
             const paymentInfo = paymentMethods[method];
             
             if (amount < 10000) {
-                alert('Minimal deposit adalah Rp 10.000');
+                showNotification('Minimal deposit adalah Rp 10.000', 'error');
                 return;
             }
 
@@ -1484,49 +1949,130 @@
             const accountName = document.getElementById('withdrawAccountName').value;
 
             if (amount < 50000) {
-                alert('Minimal withdraw adalah Rp 50.000');
+                showNotification('Minimal withdraw adalah Rp 50.000', 'error');
+                return;
+            }
+
+            if (amount > 100000000) {
+                showNotification('Maksimal withdraw adalah Rp 100.000.000', 'error');
                 return;
             }
 
             if (amount > appState.userData.balance) {
-                alert('Saldo tidak mencukupi');
+                showNotification('Saldo tidak mencukupi', 'error');
                 return;
             }
 
             if (!bank || !accountNumber || !accountName) {
-                alert('Harap lengkapi semua informasi rekening tujuan');
+                showNotification('Harap lengkapi semua informasi rekening tujuan', 'error');
                 return;
             }
 
-            // Add withdrawal fee (simulated)
+            // Add withdrawal fee
             const withdrawalFee = 6500;
             const totalDeduction = amount + withdrawalFee;
             
             if (totalDeduction > appState.userData.balance) {
-                alert(`Saldo tidak mencukupi. Dengandrawal memerlukan biaya admin Rp ${withdrawalFee}. Total yang diperlukan: Rp ${formatCurrency(totalDeduction)}`);
+                showNotification(`Saldo tidak mencukupi. Withdraw memerlukan biaya admin Rp ${withdrawalFee}. Total yang diperlukan: Rp ${formatCurrency(totalDeduction)}`, 'error');
                 return;
             }
 
-            // Process withdrawal
-            appState.userData.balance -= totalDeduction;
-            appState.userData.transactions.push({
-                id: Date.now(),
-                type: 'withdraw',
-                amount: amount,
-                fee: withdrawalFee,
-                bank: bank,
-                accountNumber: accountNumber,
-                accountName: accountName,
-                date: new Date().toISOString(),
-                status: 'pending'
-            });
+            // Show confirmation modal
+            showWithdrawConfirmation(amount, bank, accountNumber, accountName, withdrawalFee);
+        }
 
-            saveUserData();
-            updateWalletDisplay();
-            updateDashboard();
+        function showWithdrawConfirmation(amount, bank, accountNumber, accountName, fee) {
+            // Update confirmation modal with data
+            confirmAmount.textContent = `Rp ${formatCurrency(amount)}`;
+            confirmBank.textContent = document.getElementById('withdrawBank').options[document.getElementById('withdrawBank').selectedIndex].text;
+            confirmAccountNumber.textContent = accountNumber;
+            confirmAccountName.textContent = accountName;
+            confirmTotal.textContent = `Rp ${formatCurrency(amount + fee)}`;
+            
+            // Show confirmation modal
             withdrawModal.classList.remove('active');
+            showModal(withdrawConfirmModal);
+        }
+
+        function processWithdraw() {
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
+            const bank = document.getElementById('withdrawBank').value;
+            const accountNumber = document.getElementById('withdrawAccountNumber').value;
+            const accountName = document.getElementById('withdrawAccountName').value;
+            const withdrawalFee = 6500;
+            const totalDeduction = amount + withdrawalFee;
+            
+            // Show loading state
+            const originalText = confirmWithdrawBtn.innerHTML;
+            confirmWithdrawBtn.innerHTML = '<div class="loading-spinner"></div> Memproses...';
+            confirmWithdrawBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Process withdrawal
+                appState.userData.balance -= totalDeduction;
+                appState.userData.transactions.push({
+                    id: Date.now(),
+                    type: 'withdraw',
+                    amount: amount,
+                    fee: withdrawalFee,
+                    bank: bank,
+                    accountNumber: accountNumber,
+                    accountName: accountName,
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                });
+
+                saveUserData();
+                updateWalletDisplay();
+                updateDashboard();
+                withdrawConfirmModal.classList.remove('active');
+                withdrawForm.reset();
+                
+                // Reset button
+                confirmWithdrawBtn.innerHTML = originalText;
+                confirmWithdrawBtn.disabled = false;
+                
+                showNotification(`Permintaan withdraw berhasil diajukan! Dana akan ditransfer dalam 1-3 hari kerja. Biaya admin: Rp ${formatCurrency(withdrawalFee)}`, 'success');
+            }, 1500);
+        }
+
+        function updateWithdrawForm() {
+            // Update available balance
+            availableBalance.textContent = `Rp ${formatCurrency(appState.userData.balance)}`;
+            
+            // Reset form
             withdrawForm.reset();
-            alert(`Permintaan withdraw berhasil diajukan! Dana akan ditransfer dalam 1-3 hari kerja. Biaya admin: Rp ${formatCurrency(withdrawalFee)}`);
+            updateWithdrawSummary();
+        }
+
+        function updateWithdrawSummary() {
+            const amount = parseInt(withdrawAmount.value) || 0;
+            const fee = 6500;
+            const total = amount + fee;
+            
+            summaryAmount.textContent = `Rp ${formatCurrency(amount)}`;
+            summaryTotal.textContent = `Rp ${formatCurrency(total)}`;
+            
+            // Validate amount
+            if (amount > 0) {
+                if (amount < 50000) {
+                    submitWithdrawBtn.disabled = true;
+                    submitWithdrawBtn.title = "Minimum withdraw adalah Rp 50.000";
+                } else if (amount > 100000000) {
+                    submitWithdrawBtn.disabled = true;
+                    submitWithdrawBtn.title = "Maksimum withdraw adalah Rp 100.000.000";
+                } else if (total > appState.userData.balance) {
+                    submitWithdrawBtn.disabled = true;
+                    submitWithdrawBtn.title = "Saldo tidak mencukupi";
+                } else {
+                    submitWithdrawBtn.disabled = false;
+                    submitWithdrawBtn.title = "";
+                }
+            } else {
+                submitWithdrawBtn.disabled = true;
+                submitWithdrawBtn.title = "Masukkan jumlah withdraw";
+            }
         }
 
         function completeDeposit(amount, method) {
@@ -1550,7 +2096,7 @@
             paymentModal.classList.remove('active');
             depositModal.classList.remove('active');
             depositForm.reset();
-            alert(`Deposit berhasil! Saldo Anda bertambah Rp ${formatCurrency(netAmount)}. Biaya transaksi: Rp ${formatCurrency(paymentInfo.fee)}`);
+            showNotification(`Deposit berhasil! Saldo Anda bertambah Rp ${formatCurrency(netAmount)}. Biaya transaksi: Rp ${formatCurrency(paymentInfo.fee)}`, 'success');
         }
 
         function showPaymentInstructions(type, amount, method, paymentInfo) {
@@ -1622,6 +2168,39 @@
             showModal(paymentModal);
         }
 
+        // Percentage Functions for Buy/Sell
+        function setBuyAmountByPercentage(percentage) {
+            const amount = (appState.userData.balance * percentage) / 100;
+            document.getElementById('buyAmount').value = Math.floor(amount);
+        }
+
+        function setSellAmountByPercentage(percentage) {
+            const selectedCrypto = document.getElementById('sellCryptoSelect').value;
+            if (selectedCrypto && appState.userData.assets[selectedCrypto]) {
+                const availableAmount = appState.userData.assets[selectedCrypto].amount;
+                const amount = (availableAmount * percentage) / 100;
+                document.getElementById('sellAmount').value = amount.toFixed(4);
+            }
+        }
+
+        function updateAvailableBuyBalance() {
+            if (appState.currentUser) {
+                availableBuyBalance.textContent = `Rp ${formatCurrency(appState.userData.balance)}`;
+            }
+        }
+
+        function updateAvailableSellAmount() {
+            const selectedCrypto = document.getElementById('sellCryptoSelect').value;
+            if (selectedCrypto && appState.userData.assets[selectedCrypto]) {
+                const availableAmount = appState.userData.assets[selectedCrypto].amount;
+                availableSellAmount.textContent = availableAmount.toFixed(4);
+                sellCryptoUnit.textContent = selectedCrypto;
+            } else {
+                availableSellAmount.textContent = '0';
+                sellCryptoUnit.textContent = '';
+            }
+        }
+
         // Trade Functions
         function handleBuyCrypto(e) {
             e.preventDefault();
@@ -1629,12 +2208,12 @@
             const amount = parseInt(document.getElementById('buyAmount').value);
 
             if (amount < 10000) {
-                alert('Minimal pembelian adalah Rp 10.000');
+                showNotification('Minimal pembelian adalah Rp 10.000', 'error');
                 return;
             }
 
             if (amount > appState.userData.balance) {
-                alert('Saldo tidak mencukupi');
+                showNotification('Saldo tidak mencukupi', 'error');
                 return;
             }
 
@@ -1666,7 +2245,13 @@
             updateDashboard();
             buyCryptoModal.classList.remove('active');
             buyCryptoForm.reset();
-            alert(`Pembelian ${crypto} berhasil!`);
+            
+            // Reset percentage buttons
+            document.querySelectorAll('#buyCryptoModal .percentage-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            showNotification(`Pembelian ${crypto} berhasil!`, 'success');
         }
 
         function handleSellCrypto(e) {
@@ -1675,16 +2260,27 @@
             const amount = parseFloat(document.getElementById('sellAmount').value);
 
             if (!appState.userData.assets[crypto] || appState.userData.assets[crypto].amount < amount) {
-                alert('Jumlah kripto tidak mencukupi');
+                showNotification('Jumlah kripto tidak mencukupi', 'error');
                 return;
             }
 
             const cryptoData = appState.cryptoData.find(c => c.symbol === crypto);
             const idrAmount = amount * cryptoData.price;
+            const asset = appState.userData.assets[crypto];
+            const averageBuyPrice = asset.totalSpent / asset.amount;
+            const profitLoss = (cryptoData.price - averageBuyPrice) * amount;
+
+            // Update profit/loss
+            if (profitLoss > 0) {
+                appState.userData.profit += profitLoss;
+            } else {
+                appState.userData.loss += Math.abs(profitLoss);
+            }
 
             // Update user data
             appState.userData.balance += idrAmount;
             appState.userData.assets[crypto].amount -= amount;
+            appState.userData.assets[crypto].totalSpent -= averageBuyPrice * amount;
 
             // Remove crypto from assets if amount is 0
             if (appState.userData.assets[crypto].amount === 0) {
@@ -1698,6 +2294,7 @@
                 amount,
                 price: cryptoData.price,
                 total: idrAmount,
+                profitLoss: profitLoss,
                 date: new Date().toISOString()
             });
 
@@ -1706,7 +2303,49 @@
             updateDashboard();
             sellCryptoModal.classList.remove('active');
             sellCryptoForm.reset();
-            alert(`Penjualan ${crypto} berhasil!`);
+            
+            // Reset percentage buttons
+            document.querySelectorAll('#sellCryptoModal .percentage-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            showNotification(`Penjualan ${crypto} berhasil! ${profitLoss > 0 ? 'Profit: Rp ' + formatCurrency(profitLoss) : 'Loss: Rp ' + formatCurrency(Math.abs(profitLoss))}`, 'success');
+        }
+
+        // Trade Functions (Updated to include percentage buttons)
+        function populateCryptoSelect(selectElement, onlyOwned = false, preselected = null) {
+            selectElement.innerHTML = '';
+            
+            let options = [];
+            
+            if (onlyOwned) {
+                // Only show cryptos that the user owns
+                options = Object.keys(appState.userData.assets).map(symbol => {
+                    return appState.cryptoData.find(c => c.symbol === symbol);
+                }).filter(Boolean);
+            } else {
+                // Show all cryptos
+                options = [...appState.cryptoData];
+            }
+            
+            options.forEach(crypto => {
+                const option = document.createElement('option');
+                option.value = crypto.symbol;
+                option.textContent = `${crypto.symbol} - ${crypto.name}`;
+                selectElement.appendChild(option);
+            });
+            
+            // Preselect if specified
+            if (preselected) {
+                selectElement.value = preselected;
+            }
+            
+            // Update available balance/amount based on the selection
+            if (selectElement.id === 'buyCryptoSelect') {
+                updateAvailableBuyBalance();
+            } else if (selectElement.id === 'sellCryptoSelect') {
+                updateAvailableSellAmount();
+            }
         }
 
         // Crypto Data Management
@@ -1719,9 +2358,10 @@
         function updateCryptoGrid() {
             cryptoGrid.innerHTML = '';
             
-            appState.cryptoData.forEach(crypto => {
+            appState.cryptoData.forEach((crypto, index) => {
                 const card = document.createElement('div');
                 card.className = 'crypto-card';
+                card.style.animationDelay = `${index * 0.1}s`;
                 
                 const changeClass = crypto.change24h >= 0 ? 'positive' : 'negative';
                 const changeIcon = crypto.change24h >= 0 ? '▲' : '▼';
@@ -1866,12 +2506,13 @@
             
             dashboardAssets.textContent = `Rp ${formatCurrency(totalAssetsValue)}`;
             
-            // Calculate profit/loss
-            const profitLoss = totalAssetsValue - totalSpent;
-            dashboardProfit.textContent = `Rp ${formatCurrency(profitLoss)}`;
-            if (dashboardProfit.parentElement) {
-                dashboardProfit.parentElement.className = `card-value ${profitLoss >= 0 ? 'positive' : 'negative'}`;
-            }
+            // Update profit/loss
+            dashboardProfit.textContent = `Rp ${formatCurrency(appState.userData.profit)}`;
+            dashboardLoss.textContent = `Rp ${formatCurrency(appState.userData.loss)}`;
+            
+            // Update profile page
+            totalProfit.textContent = `Rp ${formatCurrency(appState.userData.profit)}`;
+            totalLoss.textContent = `Rp ${formatCurrency(appState.userData.loss)}`;
             
             // Update portfolio table
             updatePortfolioTable();
@@ -2069,34 +2710,6 @@
             modal.classList.add('active');
         }
 
-        function populateCryptoSelect(selectElement, onlyOwned = false, preselected = null) {
-            selectElement.innerHTML = '';
-            
-            let options = [];
-            
-            if (onlyOwned) {
-                // Only show cryptos that the user owns
-                options = Object.keys(appState.userData.assets).map(symbol => {
-                    return appState.cryptoData.find(c => c.symbol === symbol);
-                }).filter(Boolean);
-            } else {
-                // Show all cryptos
-                options = [...appState.cryptoData];
-            }
-            
-            options.forEach(crypto => {
-                const option = document.createElement('option');
-                option.value = crypto.symbol;
-                option.textContent = `${crypto.symbol} - ${crypto.name}`;
-                selectElement.appendChild(option);
-            });
-            
-            // Preselect if specified
-            if (preselected) {
-                selectElement.value = preselected;
-            }
-        }
-
         function toggleTheme() {
             appState.theme = appState.theme === 'light' ? 'dark' : 'light';
             document.body.setAttribute('data-theme', appState.theme);
@@ -2117,7 +2730,31 @@
             return new Intl.NumberFormat('id-ID').format(amount);
         }
 
-        // Price Updates (Simulated)
+        function showNotification(message, type) {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(notif => notif.remove());
+            
+            // Create new notification
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'exclamation-triangle'}" style="margin-right: 10px;"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after animation
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Price Updates (Improved)
         function startPriceUpdates() {
             setInterval(() => {
                 // Update prices with random changes
@@ -2126,6 +2763,22 @@
                     crypto.price = Math.max(1, crypto.price * (1 + change / 100));
                     crypto.change24h = change;
                     crypto.volume = crypto.volume * (1 + (Math.random() * 10 - 5) / 100);
+                    
+                    // Update price history for chart
+                    if (appState.priceHistory[crypto.symbol]) {
+                        // Remove oldest data point
+                        if (appState.priceHistory[crypto.symbol].length >= 24) {
+                            appState.priceHistory[crypto.symbol].shift();
+                        }
+                        
+                        // Add new data point
+                        const now = new Date();
+                        const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                        appState.priceHistory[crypto.symbol].push({
+                            time: timeString,
+                            price: crypto.price
+                        });
+                    }
                 });
                 
                 updateCryptoDisplay();
@@ -2135,27 +2788,26 @@
                     updateDashboard();
                     updateWalletDisplay();
                 }
+                
+                // Update chart if it exists
+                if (window.priceChart) {
+                    updateChart();
+                }
             }, 5000); // Update every 5 seconds
         }
 
-        // Chart Initialization
+        // Chart Initialization (Improved)
+        let priceChart;
+
         function initChart() {
-            const ctx = priceChartCanvas.getContext('2d');
+            const ctx = document.getElementById('priceChart').getContext('2d');
             
-            // Sample data for the chart
-            const labels = [];
-            const data = [];
+            // Use BTC data for the chart by default
+            const btcHistory = appState.priceHistory['BTC'] || [];
+            const labels = btcHistory.map(item => item.time);
+            const data = btcHistory.map(item => item.price);
             
-            let currentPrice = 520000000; // Starting price for BTC
-            
-            for (let i = 0; i < 24; i++) {
-                labels.push(`${i}:00`);
-                // Simulate price movement
-                currentPrice = currentPrice * (1 + (Math.random() * 2 - 1) / 100);
-                data.push(currentPrice);
-            }
-            
-            new Chart(ctx, {
+            priceChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
@@ -2205,6 +2857,19 @@
                     }
                 }
             });
+        }
+
+        function updateChart() {
+            if (!priceChart) return;
+            
+            // Use BTC data for the chart by default
+            const btcHistory = appState.priceHistory['BTC'] || [];
+            const labels = btcHistory.map(item => item.time);
+            const data = btcHistory.map(item => item.price);
+            
+            priceChart.data.labels = labels;
+            priceChart.data.datasets[0].data = data;
+            priceChart.update('none');
         }
 
         // Initialize the application
